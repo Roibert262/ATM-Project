@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>User Register - The Real Bank</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="top-nav">
+    <button onclick="history.back()" class="btn-nav">← BACK</button>
+    <a href="index.html" class="btn-nav">HOME</a>
+</nav>
+
+    <header class="header">
+        <h1 class="main-title">The Real Bank-ATM</h1>
+        <p class="subtitle">Welcome to “The Real Bank”, a place where all your money and stress can be handled with trust</p>
+    </header>
+
+    <main class="login-container">
+        <h2 class="form-title">REGISTER</h2>
+        
+        <form id="user-register-form" autocomplete="off">
+            <div class="input-row">
+                <label for="reg-name">NAME:</label>
+                <input type="text" id="reg-name" autocomplete="off" required>
+            </div>
+            
+            <div class="input-row">
+                <label for="reg-pin">CREATE PIN:</label>
+                <input type="password" id="reg-pin" maxlength="4" placeholder="4 digits" autocomplete="new-password" required>
+            </div>
+
+            <div class="input-row">
+                <label for="reg-dob">BIRTH DATE:</label>
+                <input type="date" id="reg-dob" required>
+            </div>
+
+            <p id="reg-error-msg" class="error-text"></p>
+
+            <div class="button-row">
+                <button type="submit" class="btn-submit">REGISTER</button>
+            </div>
+        </form>
+    </main>
+
+    <footer class="footer">
+        Created by Robert, August 2026
+    </footer>
+
+    <script src="user.js"></script>
+</body>
+</html>

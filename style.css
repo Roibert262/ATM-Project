@@ -1,0 +1,217 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #000000;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px 80px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.main-title {
+    font-size: 72px;
+    font-weight: 500;
+    letter-spacing: -1px;
+    margin-bottom: 25px;
+}
+
+.subtitle {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+/* Landing & Daily User Options */
+.options-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.btn-option {
+    text-decoration: none;
+    color: #000000;
+    font-size: 38px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-daily {
+    text-align: left;
+    line-height: 1.2;
+}
+
+.btn-option:hover {
+    opacity: 0.6;
+}
+
+/* Layout Formulare & Controale */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.form-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+#admin-login-form,
+#user-register-form,
+#user-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Intrări & Etichete */
+.input-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+}
+
+.input-row label {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.input-row input {
+    width: 280px;
+    height: 40px;
+    border: 2px solid #000000;
+    background-color: #ffffff;
+    padding: 0 10px;
+    font-size: 18px;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Mesaj de eroare */
+.error-text {
+    color: #e53935;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    height: 20px;
+}
+
+/* Butoane */
+.button-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.btn-submit {
+    background-color: #000000;
+    color: #ffffff;
+    border: 2px solid #000000;
+    padding: 10px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-submit:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* Admin Dashboard Users Grid */
+.users-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    max-width: 900px;
+}
+
+.user-card {
+    border: 2px solid #000000;
+    padding: 20px;
+    width: 250px;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.user-card:hover {
+    background-color: #f5f5f5;
+    transform: translateY(-3px);
+}
+
+.user-card h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.user-card p {
+    font-size: 16px;
+}
+
+/* Footer */
+.footer {
+    font-size: 16px;
+    font-style: italic;
+    color: #000000;
+}
+/* Container Navigare Stânga Sus */
+.top-nav {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    display: flex;
+    gap: 15px;
+    z-index: 1000;
+}
+
+.btn-nav {
+    background-color: transparent;
+    color: #000000;
+    border: 2px solid #000000;
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-nav:hover {
+    background-color: #000000;
+    color: #ffffff;
+}

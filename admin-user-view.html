@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>User Details - Admin View</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .btn-delete {
+            background-color: #d32f2f;
+            color: #ffffff;
+            border: 2px solid #d32f2f;
+            padding: 10px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-delete:hover {
+            background-color: #ffffff;
+            color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <nav class="top-nav">
+    <button onclick="history.back()" class="btn-nav">← BACK</button>
+    <a href="index.html" class="btn-nav">HOME</a>
+</nav>
+
+    <header class="header">
+        <h1 class="main-title">The Real Bank-ATM</h1>
+        <p class="subtitle">Welcome to “The Real Bank”, a place where all your money and stress can be handled with trust</p>
+    </header>
+
+    <main class="login-container">
+        <h2 class="form-title" id="selected-user-name">USER'S ACCOUNT</h2>
+        
+        <div class="user-info-box" style="text-align: center; margin-bottom: 25px; font-size: 20px; display: flex; flex-direction: column; gap: 10px;">
+            <p><strong>Birth Date:</strong> <span id="selected-user-dob">N/A</span></p>
+            <p><strong>Current Balance:</strong> $<span id="selected-user-balance">0</span></p>
+            <p><strong>PIN:</strong> <span id="selected-user-pin">N/A</span></p>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 15px;">Transaction History</h3>
+            <ul id="transaction-history" style="list-style: none; font-size: 18px; display: flex; flex-direction: column; gap: 8px;"></ul>
+        </div>
+
+        <div class="button-row" style="flex-direction: column; align-items: center; gap: 15px;">
+            <a href="admin-dashboard.html" class="btn-submit" style="text-decoration: none; display: inline-block;">BACK TO ACCOUNTS</a>
+            <button id="delete-account-btn" class="btn-delete">DELETE THIS ACCOUNT</button>
+        </div>
+    </main>
+
+    <footer class="footer">
+        Created by Robert, August 2026
+    </footer>
+
+    <script>
+        function loadUserData() {
+            const selectedPin = localStorage.getItem('selected_admin_user_pin');
+            let users = JSON.parse(localStorage.getItem('atm_users')) || [];
+            const userIndex = users.findIndex(u => u.pin === selectedPin);
+
+            if (userIndex === -1 || !selectedPin) {
+                window.location.replace('admin-dashboard.html');
+                return;
+            }
+
+            const user = users[userIndex];
+
+            document.getElementById('selected-user-name').textContent = `${user.name.toUpperCase()}'S ACCOUNT`;
+            document.getElementById('selected-user-dob').textContent = user.dob || 'N/A';
+            document.getElementById('selected-user-balance').textContent = user.balance || 0;
+            document.getElementById('selected-user-pin').textContent = user.pin;
+
+            const historyList = document.getElementById('transaction-history');
+            historyList.innerHTML = '';
+
+            if (!user.transactions || user.transactions.length === 0) {
+                historyList.innerHTML = '<li style="font-style: italic; opacity: 0.7;">No transactions recorded yet.</li>';
+            } else {
+                user.transactions.forEach(tx => {
+                    const li = document.createElement('li');
+                    li.textContent = `${tx.type.toUpperCase()}: $${tx.amount} on ${tx.date}`;
+                    historyList.appendChild(li);
+                });
+            }
+        }
+
+        window.addEventListener('pageshow', loadUserData);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('delete-account-btn').addEventListener('click', () => {
+                const selectedPin = localStorage.getItem('selected_admin_user_pin');
+                let users = JSON.parse(localStorage.getItem('atm_users')) || [];
+                const userIndex = users.findIndex(u => u.pin === selectedPin);
+
+                if (userIndex !== -1) {
+                    const userName = users[userIndex].name;
+                    if (confirm(`Are you sure you want to delete ${userName}'s account?`)) {
+                        users.splice(userIndex, 1);
+                        localStorage.setItem('atm_users', JSON.stringify(users));
+                        localStorage.removeItem('selected_admin_user_pin');
+
+                        alert('Account has been deleted successfully!');
+                        window.location.replace('admin-dashboard.html');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
