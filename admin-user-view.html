@@ -31,10 +31,11 @@
     </style>
 </head>
 <body>
+
     <nav class="top-nav">
-    <button onclick="history.back()" class="btn-nav">← BACK</button>
-    <a href="index.html" class="btn-nav">HOME</a>
-</nav>
+        <button onclick="history.back()" class="btn-nav">← BACK</button>
+        <a href="index.html" class="btn-nav">HOME</a>
+    </nav>
 
     <header class="header">
         <h1 class="main-title">The Real Bank-ATM</h1>
@@ -51,7 +52,7 @@
         </div>
 
         <div style="text-align: center; margin-bottom: 30px;">
-            <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 15px;">Transaction History</h3>
+            <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 15px;">Last 5 Transactions</h3>
             <ul id="transaction-history" style="list-style: none; font-size: 18px; display: flex; flex-direction: column; gap: 8px;"></ul>
         </div>
 
@@ -89,7 +90,10 @@
             if (!user.transactions || user.transactions.length === 0) {
                 historyList.innerHTML = '<li style="font-style: italic; opacity: 0.7;">No transactions recorded yet.</li>';
             } else {
-                user.transactions.forEach(tx => {
+                // Inversam array-ul pentru a avea cele mai recente primele, apoi luam primele 5
+                const recentTransactions = [...user.transactions].reverse().slice(0, 5);
+
+                recentTransactions.forEach(tx => {
                     const li = document.createElement('li');
                     li.textContent = `${tx.type.toUpperCase()}: $${tx.amount} on ${tx.date}`;
                     historyList.appendChild(li);

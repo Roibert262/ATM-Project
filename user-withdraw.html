@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Withdraw Funds - The Real Bank</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navigare stanga sus -->
+    <nav class="top-nav">
+        <button onclick="history.back()" class="btn-nav">← BACK</button>
+        <a href="index.html" class="btn-nav">HOME</a>
+    </nav>
+
+    <header class="header">
+        <h1 class="main-title">The Real Bank-ATM</h1>
+        <p class="subtitle">Welcome to “The Real Bank”, a place where all your money and stress can be handled with trust</p>
+    </header>
+
+    <main class="login-container">
+        <h2 class="form-title">WITHDRAW FUNDS</h2>
+        
+        <form id="withdraw-form" autocomplete="off">
+            <div class="input-row">
+                <label for="withdraw-amount">AMOUNT ($):</label>
+                <input type="number" id="withdraw-amount" min="1" step="any" placeholder="Enter amount" autocomplete="off" required>
+            </div>
+
+            <div class="input-row">
+                <label for="withdraw-pin">CONFIRM PIN:</label>
+                <input type="password" id="withdraw-pin" maxlength="4" placeholder="4 digits" autocomplete="new-password" required>
+            </div>
+
+            <p id="withdraw-error-msg" class="error-text"></p>
+
+            <div class="button-row">
+                <button type="submit" class="btn-submit">WITHDRAW NOW</button>
+            </div>
+        </form>
+    </main>
+
+    <footer class="footer">
+        Created by Robert, August 2026
+    </footer>
+
+    <script>
+        window.addEventListener('pageshow', () => {
+            const form = document.getElementById('withdraw-form');
+            const errorMsg = document.getElementById('withdraw-error-msg');
+            if (form) form.reset();
+            if (errorMsg) errorMsg.textContent = '';
+        });
+
+        document.getElementById('withdraw-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const amountInput = parseFloat(document.getElementById('withdraw-amount').value);
+            const pinInput = document.getElementById('withdraw-pin').value.trim();
+            const errorMsg = document.getElementById('withdraw-error-msg');
+
+            const currentUser = JSON.parse(localStorage.getItem('current_user'));
+            let users = JSON.parse(localStorage.getItem('atm_users')) || [];
+
+            if (!currentUser) {
+                window.location.replace('user-login.html');
+                return;
+            }
+
+            if (isNaN(amountInput) || amountInput <= 0) {
+                errorMsg.textContent = 'Please enter a valid amount greater than 0.';
+                return;
+            }
+
+            if (pinInput !== currentUser.pin) {
+                errorMsg.textContent = 'Incorrect PIN! Please try again.';
+                return;
+            }
+
+            const currentBalance = parseFloat(currentUser.balance) || 0;
+
+            // Verificare fonduri insuficiente
+            if (amountInput > currentBalance) {
+                errorMsg.textContent = `Insufficient funds! Available balance: $${currentBalance}`;
+                return;
+            }
+
+            // Scadere sold si salvare tranzactie
+            currentUser.balance = currentBalance - amountInput;
+
+            if (!currentUser.transactions) {
+                currentUser.transactions = [];
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+            currentUser.transactions.push({
+                type: 'withdrawal',
+                amount: amountInput,
+                date: today
+            });
+
+            // Sincronizare in lista generala atm_users
+            const userIndex = users.findIndex(u => u.pin === currentUser.pin);
+            if (userIndex !== -1) {
+                users[userIndex] = currentUser;
+            }
+
+            localStorage.setItem('current_user', JSON.stringify(currentUser));
+            localStorage.setItem('atm_users', JSON.stringify(users));
+
+            alert(`Successfully withdrew $${amountInput}!`);
+            window.location.replace('user-dashboard.html');
+        });
+    </script>
+</body>
+</html>

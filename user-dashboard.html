@@ -13,10 +13,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- Butoane navigare stanga sus -->
     <nav class="top-nav">
-    <button onclick="history.back()" class="btn-nav">← BACK</button>
-    <a href="index.html" class="btn-nav">HOME</a>
-</nav>
+        <button onclick="history.back()" class="btn-nav">← BACK</button>
+        <a href="index.html" class="btn-nav">HOME</a>
+    </nav>
 
     <header class="header">
         <h1 class="main-title">The Real Bank-ATM</h1>
@@ -25,12 +27,48 @@
 
     <main class="login-container">
         <h2 class="form-title">WELCOME, <span id="user-display-name">USER</span>!</h2>
-        <p style="font-size: 24px; margin-bottom: 20px;">Current Balance: <strong>$<span id="user-balance">0</span></strong></p>
+        <p style="font-size: 24px; margin-bottom: 50px;">Current Balance: <strong>$<span id="user-balance">0</span></strong></p>
+        
+        <div class="options-container" style="max-width: 700px; width: 100%; position: relative; z-index: 10;">
+            <button type="button" id="btn-deposit" class="btn-option" style="background: none; border: none; cursor: pointer;">DEPOSIT</button>
+            <button type="button" id="btn-withdraw" class="btn-option" style="background: none; border: none; cursor: pointer;">WITHDRAW</button>
+        </div>
     </main>
 
     <footer class="footer">
         Created by Robert, August 2026
     </footer>
 
+    <script>
+        function loadCurrentUser() {
+            const currentUser = JSON.parse(localStorage.getItem('current_user'));
+            if (!currentUser) {
+                window.location.replace('user-login.html');
+                return;
+            }
+
+            document.getElementById('user-display-name').textContent = currentUser.name.toUpperCase();
+            document.getElementById('user-balance').textContent = currentUser.balance || 0;
+        }
+
+        // Se executa la fiecare afisare, inclusiv navigare Back/Forward
+        window.addEventListener('pageshow', loadCurrentUser);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const depositBtn = document.getElementById('btn-deposit');
+            if (depositBtn) {
+                depositBtn.addEventListener('click', () => {
+                    window.location.href = 'user-deposit.html';
+                });
+            }
+
+            const withdrawBtn = document.getElementById('btn-withdraw');
+            if (withdrawBtn) {
+                withdrawBtn.addEventListener('click', () => {
+                    window.location.href = 'user-withdraw.html';
+                });
+            }
+        });
+    </script>
 </body>
 </html>
